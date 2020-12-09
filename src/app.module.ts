@@ -1,3 +1,4 @@
+import { MovieService } from './services/movie/movie.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -10,6 +11,7 @@ import { Movie } from '../entities/movie.entity';
 import { Order } from '../entities/order.entity';
 import { User } from '../entities/user.entity';
 import { AdministratorController } from './controllers/api/administrator.controller';
+import { MovieController } from './controllers/api/movie.controller';
 import { AppController } from './controllers/app.controller';
 import { AdministartorService } from './services/administartor/administartor.service';
 
@@ -19,7 +21,7 @@ import { AdministartorService } from './services/administartor/administartor.ser
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: DatabaseConfiguration.hostname,
-      port: 3307, // 3306 UROS I BRANKA
+      port: 3306, // 3306 UROS I BRANKA
       username: DatabaseConfiguration.username,
       password: DatabaseConfiguration.password,
       database: DatabaseConfiguration.database,
@@ -45,8 +47,9 @@ import { AdministartorService } from './services/administartor/administartor.ser
   ],
   controllers: [
     AppController,
-    AdministratorController
+    AdministratorController,
+    MovieController
   ],
-  providers: [AdministartorService],
+  providers: [AdministartorService,MovieService],
 })
 export class AppModule {}
