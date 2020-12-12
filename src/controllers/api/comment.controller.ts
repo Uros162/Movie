@@ -17,11 +17,16 @@ import { CommentService } from "src/services/comment/comment.service";
     },
     query: {
         join: {
-           movie: {
-               eager: true
-           },
+            movie: {
+                eager: true
+            },
+            user: {
+                eager: true
+            }
+           
         }
     }
+   
 })
 export class CommentController {
     constructor(public service: CommentService) {}

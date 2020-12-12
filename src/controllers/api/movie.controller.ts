@@ -1,50 +1,7 @@
-<<<<<<< HEAD
-import { MovieService } from '../../services/movie/movie.service';
-import {​​ Controller }​​ from "@nestjs/common";
-
-import {​​ Crud }​​ from "@nestjsx/crud";
-
-import {​​ Movie }​​ from "entities/movie.entity";
-
-
-
-
-
-@Controller('api/movie')
-
-@Crud({​​
-
-    model: {​​
-
-        type: Movie
-
-    }​​,
-
-    params: {​​
-
-        id: {​​
-
-            field: 'movieId',
-
-            type: 'number',
-
-            primary: true
-
-        }​​
-
-    }​​
-
-}​​)
-
-export class MovieController {​​
-
-    constructor(public service: MovieService) {​​}​​
-
-}​​
-=======
-import { Controller } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { Movie } from "entities/movie.entity";
+import { AddMovieDTO } from "src/dtos/movie/add.movie.dto";
 import { MovieService } from "src/services/movie/movie.service";
 
 @Controller('api/movie')
@@ -71,6 +28,10 @@ import { MovieService } from "src/services/movie/movie.service";
     }
 })
 export class MovieController {
-    constructor(public service: MovieService) {}
+    constructor(public service: MovieService) {
+    }
+@Post('createFull')
+    creatFullMovie(@Body()data:AddMovieDTO){
+     return this.service.crateFullMovie(data);    
+    }
 }
->>>>>>> 5883df7e8acd8e1c0c8c26ed298a7179872f4002
