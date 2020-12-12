@@ -1,5 +1,5 @@
 import { jwtSecret } from './../../config/jwt.secret';
-import { LoginInfoAdministratorInfoDto } from './../dtos/administrator/login.info.administrator.dto';
+
 
 import { ApiResponse } from './../misc/api.response.class';
 import { LoginAdministratorDto } from './../dtos/administrator/login.administrator.dto';
@@ -9,6 +9,7 @@ import  * as crypto from 'crypto'
 import * as jwt from 'jsonwebtoken'
 import { JwtDataAdministratorDto } from 'src/dtos/jwt.data.dto';
 import{Request} from 'express'
+import { LoginInfoAdministratorDto } from 'src/dtos/administrator/login.info.administrator.dto';
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -17,7 +18,7 @@ export class AuthController {
 
     }
     @Post('login')
-      async  doLogin(@Body()data:LoginAdministratorDto,@Req() req:Request):Promise<ApiResponse | LoginInfoAdministratorInfoDto >{
+      async  doLogin(@Body()data:LoginAdministratorDto,@Req() req:Request):Promise<ApiResponse | LoginInfoAdministratorDto >{
             const administrator =await  this.administratorService.getByUsername(data.username);
 
             if(!administrator){
@@ -45,7 +46,7 @@ export class AuthController {
             jwtData.ua = req.headers["user-agent"]
 
             let token:string = jwt.sign(jwtData.toPlainObject(),jwtSecret);
-            const responseObject = new LoginInfoAdministratorInfoDto(
+            const responseObject = new LoginInfoAdministratorDto(
                 administrator.administratorId,
                 administrator.username,
                 token

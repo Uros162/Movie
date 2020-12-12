@@ -2,49 +2,54 @@ import { ApiResponse } from './../../misc/api.response.class';
 import { Body, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
-import { Movie } from "entities/movie.entity";
-import { AddMovieDTO } from "src/dtos/movie/add.movie.dto";
+import { Comment } from "src/entities/comment.entity";
+import { MoviePrice } from "src/entities/movie-price.entity";
+import { Movie } from "src/entities/movie.entity";
+import { AddMovieDto } from "src/dtos/movie/add.movie.dto";
+
 import { Repository } from "typeorm";
-import { MoviePrice } from 'entities/movie-price.entity';
+
 
 @Injectable()
 export class MovieService extends TypeOrmCrudService<Movie> {
     constructor(
-        @InjectRepository(Movie)
-         private readonly movie: Repository<Movie>,
+        @InjectRepository(Movie) private readonly movie: Repository<Movie>,
+        @InjectRepository(MoviePrice) private readonly moviePrice: Repository<MoviePrice>, // evidentiraj u modulu
+        @InjectRepository(Comment) private readonly comments: Repository<Comment>, // evidentiraj u modulu
+) {  super(movie); }
 
-         @InjectRepository(MoviePrice)
-         readonly moviePrice:Repository<MoviePrice>,
+async createFullMovie(data: AddMovieDto): Promise<Movie | ApiResponse> {
+    let newMovie: Movie = new Movie();
+    newMovie.name = data.name;
+    newMovie.description = data.description;
+    newMovie.genre = data.genre;
+    newMovie.year = data.year;
+    newMovie.rating = data.rating;
 
-        /*  @InjectRepository(Comment) 
-         private readonly comment: Repository<Comment> */
-         
+    let savedMovie = await this.movie.save(newMovie);
 
-        ) {  super(movie); }
+    let  newMoviePrice: MoviePrice = new MoviePrice();
+    newMoviePrice.movieId = savedMovie.movieId;
+    newMoviePrice.price = data.price;
 
-        async crateFullMovie(data:AddMovieDTO):Promise<Movie | ApiResponse>{
-            let newMovie:Movie = new Movie;
-            newMovie.name = data.name;
-            newMovie.description = data.description;
-            newMovie.genre = data.genre;
-            newMovie.year = data.year;
-            newMovie.rating = data.rating
+    await this.moviePrice.save(newMoviePrice);
 
-            let savedMovie = await this.movie.save(newMovie)
+    // for (let comment of data.comments) {
+    //     let newComment: Comment = new Comment();
+    //     newComment.userId = comment.userId;  
+    //     newComment.originalValue = comment.originalValue;
+    //     newComment.moderatedValue = comment.moderatedValue;
+    //     newComment.ratingValue = comment.ratingValue;
+    //     newComment.status = comment.status;
+    //     newComment.moderatorAdministratorId = comment.moderatorAdministratorId;
 
-            let newMoviePrice:MoviePrice = new MoviePrice();
-            newMoviePrice.movieId = savedMovie.movieId;
-            newMoviePrice.price = data.price;
+    //     this.comments.save(newComment);
+    // }
 
-            this.moviePrice.save(newMoviePrice)
-
-            return await this.movie.findOne(savedMovie,{
-                relations:[
-                    "moviePrices"
-                ]
-            })
-
-        }
-
-       
+    return await this.movie.findOne(savedMovie.movieId, {
+        relations: [
+            "moviePrices",
+        ]
+    });
+}
 }

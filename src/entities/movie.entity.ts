@@ -26,7 +26,7 @@ export class Movie {
   genre: string | null;
 
   @Column({type: "year"})
-  year: number;
+  year: string;
 
   @Column({
     type: "decimal",
