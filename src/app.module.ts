@@ -20,6 +20,7 @@ import { CommentController } from './controllers/api/comment.controller';
 
 import { AuthMiddleware } from './midllewares/auth.midleware';
 import { MovieService } from './services/movie/movie.service';
+import { UserService } from './services/user/user.service';
 
 
 
@@ -61,6 +62,7 @@ import { MovieService } from './services/movie/movie.service';
   ],
   providers: [
     AdministartorService,
+    UserService,
     MovieService,
     MoviePriceService,
     CommentService,
