@@ -15,7 +15,7 @@ import { UserService } from "src/services/user/user.service";
 export class AuthController {
     constructor(public administratorService: AdministartorService, public userService: UserService) {}
 
-    @Post('login') // localhost:3303/auth/login
+    @Post('administrator/login') // localhost:3303/auth/login
     async doLogin(@Body() data: LoginAdministratorDto, @Req() req: Request): Promise<LoginInfoAdministratorDto | ApiResponse> {
         const administrator = await this.administratorService.getByUsernamme(data.username);
         
