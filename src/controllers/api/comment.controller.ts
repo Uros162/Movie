@@ -43,6 +43,12 @@ import { CommentService } from "src/services/comment/comment.service";
                 AllowToRoles('administrator', 'user'),
             ]
         },
+        createManyBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator', 'user'),
+            ]
+        },
         updateOneBase: {
             decorators: [
                 UseGuards(RoleCheckerGuard),
