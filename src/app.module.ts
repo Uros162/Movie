@@ -69,6 +69,7 @@ import { UserService } from './services/user/user.service';
   ],
   exports: [
     AdministartorService,
+    UserService,
   ]
 })
 export class AppModule implements NestModule {

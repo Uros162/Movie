@@ -1,3 +1,4 @@
+
 import { jwtSecret } from './../../config/jwt.secret';
 
 
@@ -9,7 +10,8 @@ import  * as crypto from 'crypto'
 import * as jwt from 'jsonwebtoken'
 import { JwtDataAdministratorDto } from 'src/dtos/jwt.data.dto';
 import{Request} from 'express'
-import { LoginInfoAdministratorDto } from 'src/dtos/administrator/login.info.administrator.dto';
+import { LoginInfoDto } from 'src/dtos/auth/login.info.dto';
+
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -18,7 +20,7 @@ export class AuthController {
 
     }
     @Post('login')
-      async  doLogin(@Body()data:LoginAdministratorDto,@Req() req:Request):Promise<ApiResponse | LoginInfoAdministratorDto >{
+      async  doLogin(@Body()data:LoginAdministratorDto,@Req() req:Request):Promise<ApiResponse | LoginInfoDto >{
             const administrator =await  this.administratorService.getByUsername(data.username);
 
             if(!administrator){
@@ -46,7 +48,7 @@ export class AuthController {
             jwtData.ua = req.headers["user-agent"]
 
             let token:string = jwt.sign(jwtData.toPlainObject(),jwtSecret);
-            const responseObject = new LoginInfoAdministratorDto(
+            const responseObject = new LoginInfoDto(
                 administrator.administratorId,
                 administrator.username,
                 token
