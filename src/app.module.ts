@@ -24,6 +24,7 @@ import { MovieService } from './services/movie/movie.service';
 import { UserService } from './services/user/user.service';
 import { CartMovie } from './entities/cart-movie.entity';
 import { CartService } from './services/cart/cart.service';
+import { OrderService } from './services/order/order.service';
 
 
 
@@ -73,6 +74,7 @@ import { CartService } from './services/cart/cart.service';
     MoviePriceService,
     CommentService,
     CartService,
+    OrderService,
   ],
   exports: [
     AdministartorService,
