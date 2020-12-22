@@ -1,3 +1,5 @@
+import { AuthMiddleware } from './middlewares/auth.middleware';
+
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MoviePrice } from 'src/entities/movie-price.entity';
@@ -19,7 +21,7 @@ import { CommentService } from './services/comment/comment.service';
 import { MoviePriceService } from './services/movie-price/movie-price.service';
 import { CommentController } from './controllers/api/comment.controller';
 
-import { AuthMiddleware } from './midllewares/auth.midleware';
+
 import { MovieService } from './services/movie/movie.service';
 import { UserService } from './services/user/user.service';
 import { CartMovie } from './entities/cart-movie.entity';
